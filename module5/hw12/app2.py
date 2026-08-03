@@ -16,10 +16,17 @@ def init_csv():
 
 
 def read_students():
-    """Читає всіх студентів із CSV-файлу."""
+    """Читає всіх студентів з файлу CSV з перевіркою на порожнечу."""
     init_csv()
+    students = []
+
+
     with open(CSV_FILE, mode="r", newline="", encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+        reader = csv.DictReader(f)
+        for row in reader:
+            if any(value.strip() for value in row.values()):
+                students.append(row)
+    return students
 
 
 def write_students(students):
