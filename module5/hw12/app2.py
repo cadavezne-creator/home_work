@@ -1,6 +1,6 @@
 import csv
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request # type: ignore
 
 app = Flask (__name__)
 CSV_FILE = "students.csv"
