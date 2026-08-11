@@ -1,4 +1,8 @@
-from demisto/flask-nginx:1.0.0.11671917
-workdir /app
-copy . /app/app2.py
-expose 0.0.0.0:8000
+FROM demisto/flask-nginx:1.0.0.11671917
+WORKDIR /app
+COPY . /app/app2.py
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir gunicorn
+EXPOSE 8000
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app2:app"]
