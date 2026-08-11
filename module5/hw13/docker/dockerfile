@@ -1,1 +1,4 @@
 from demisto/flask-nginx:1.0.0.11671917
+workdir /app
+copy . /app/app2.py
+expose 0.0.0.0:8000
