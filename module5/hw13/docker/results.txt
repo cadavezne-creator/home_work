@@ -2,20 +2,7 @@
 
 --- Крок 1: Отримати всіх наявних студентів (GET) ---
 Status Code: 200
-Response JSON: [
-  {
-    "age": 25,
-    "first_name": "Анна",
-    "id": 102,
-    "last_name": "Шевченко"
-  },
-  {
-    "age": 22,
-    "first_name": "Данило",
-    "id": 103,
-    "last_name": "Ткаченко"
-  }
-]
+Response JSON: []
 
 --- Крок 2: Створити трьох студентів (POST) ---
 Додавання студента ID 101...
@@ -28,37 +15,43 @@ Response JSON: {
 }
 
 Додавання студента ID 102...
-Status Code: 400
+Status Code: 201
 Response JSON: {
-  "error": "Student with this ID already exists"
+  "age": 20,
+  "first_name": "Анна",
+  "id": 102,
+  "last_name": "Шевченко"
 }
 
 Додавання студента ID 103...
-Status Code: 400
+Status Code: 201
 Response JSON: {
-  "error": "Student with this ID already exists"
+  "age": 21,
+  "first_name": "Дмитро",
+  "id": 103,
+  "last_name": "Бондар"
 }
 
 --- Крок 3: Отримати інформацію про всіх наявних студентів (GET) ---
 Status Code: 200
 Response JSON: [
   {
-    "age": 25,
+    "age": 19,
+    "first_name": "Олег",
+    "id": 101,
+    "last_name": "Лисенко"
+  },
+  {
+    "age": 20,
     "first_name": "Анна",
     "id": 102,
     "last_name": "Шевченко"
   },
   {
-    "age": 22,
-    "first_name": "Данило",
+    "age": 21,
+    "first_name": "Дмитро",
     "id": 103,
-    "last_name": "Ткаченко"
-  },
-  {
-    "age": 19,
-    "first_name": "Олег",
-    "id": 101,
-    "last_name": "Лисенко"
+    "last_name": "Бондар"
   }
 ]
 
@@ -102,6 +95,12 @@ Response JSON: {
 Status Code: 200
 Response JSON: [
   {
+    "age": 19,
+    "first_name": "Олег",
+    "id": 101,
+    "last_name": "Лисенко"
+  },
+  {
     "age": 25,
     "first_name": "Анна",
     "id": 102,
@@ -112,12 +111,6 @@ Response JSON: [
     "first_name": "Данило",
     "id": 103,
     "last_name": "Ткаченко"
-  },
-  {
-    "age": 19,
-    "first_name": "Олег",
-    "id": 101,
-    "last_name": "Лисенко"
   }
 ]
 

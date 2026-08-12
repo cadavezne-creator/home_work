@@ -7,14 +7,18 @@ RUN pip install --no-cache-dir --user -r requirements.txt && \
 
 # Production stage
 FROM python:3.11-slim
-WORKDIR /app
 RUN groupadd -r appuser && useradd -r -g appuser appuser
-COPY --from=builder --chown=appuser:appuser /root/.local /home/appuser/.local
+USER appuser
+WORKDIR /home/appuser/app
+
+#RUN chmod -R 777 /app
+COPY --from=builder --chown=appuser:appuser /root/.local /home/appuser/.local 
 COPY --chown=appuser:appuser . .
 ENV PATH=/home/appuser/.local/bin:$PATH \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
-USER appuser
+
+#WORKDIR /home/appuser/app
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/').read()" || exit 1
