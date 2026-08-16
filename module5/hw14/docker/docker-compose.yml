@@ -1,0 +1,15 @@
+yamlversion: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: homework_app
+    ports:
+      - "8080:80" # Замініть порти, якщо ваш додаток використовує інші
+    restart: always
+    environment:
+      - NODE_ENV=production # Приклад змінної середовища
+    volumes:
+      - .:/app2.py # Опціонально: прив'язка локальної папки для розробки
