@@ -4,12 +4,19 @@ services:
   app:
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     container_name: homework_app
-    ports:
-      - "8080:80" # Замініть порти, якщо ваш додаток використовує інші
+    expose:
+      - "8000"
     restart: always
-    environment:
-      - NODE_ENV=production # Приклад змінної середовища
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_proxy
+    ports:
+      - "8080:80" # Открывает порт 8080 наружу и связывает с портом 80 nginx
     volumes:
-      - .:/app2.py # Опціонально: прив'язка локальної папки для розробки
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro # Монтирует файл конфигурации
+    depends_on:
+      - app # Запускает nginx только после старта приложения
+    restart: always
