@@ -1,11 +1,11 @@
-yamlversion: '3.8'
+version: '3.0'
 
 services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: hw13
+      dockerfile: dockerfile
+    container_name: hw14
     expose:
       - "8000"
     restart: always
