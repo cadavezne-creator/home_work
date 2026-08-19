@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: homework_app
+    container_name: hw13
     expose:
       - "8000"
     restart: always
@@ -14,7 +14,7 @@ services:
     image: nginx:alpine
     container_name: nginx_proxy
     ports:
-      - "8080:80" # Открывает порт 8080 наружу и связывает с портом 80 nginx
+      - "8080:80" 
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro # Монтирует файл конфигурации
     depends_on:
