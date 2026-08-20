@@ -1,9 +1,14 @@
 import csv
 import os
 from flask import Flask, jsonify, request # type: ignore
+from pathlib import Path
+
+path = Path("./data")
+path.mkdir(parents=True, exist_ok=True)
 
 app = Flask (__name__)
-CSV_FILE = "students.csv"
+
+CSV_FILE = "./data/students.csv"
 FIELDNAMES = ["id", "first_name", "last_name", "age"]
 
 def init_csv():

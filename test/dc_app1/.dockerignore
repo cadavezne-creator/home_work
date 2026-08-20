@@ -19,3 +19,4 @@ htmlcov
 students.csv
 results.txt
 test_requests.py
+dockerfile
