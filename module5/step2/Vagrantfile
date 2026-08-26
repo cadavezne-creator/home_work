@@ -1,0 +1,59 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+
+
+
+
+  JENKINS = "192.168.56.10"
+  WORKER = "192.168.56.20"
+  
+
+#puts ENV.select { |key, value| key.start_with?("DB_") }.to_h
+
+Vagrant.configure("2") do |config|
+  
+  config.vm.box = "ubuntu/bionic64"
+  
+  #  
+  # JENKINS - сервер баз
+    config.vm.define "jenkins" do |db|
+     db.vm.hostname = "jenkins-server" 
+     db.vm.network "private_network", ip: JENKINS
+  #db.vm.network "forwarded_port", guest: 8080, host: 8080
+    db.vm.provider "virtualbox" do |vb|
+      vb.name = "JENKINS"
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+    
+    db.vm.provision "shell",
+     env: {
+      "JENKINS" => JENKINS
+     },
+     path: "scripts/provision-jenkins.sh"
+   end
+
+ #
+ # WORKER - worker для jenkins
+    config.vm.define "worker" do |worker|
+      worker.vm.hostname = "worker-server"
+    worker.vm.network "private_network", ip: WORKER   
+    worker.vm.provider "virtualbox" do |vb|
+      vb.name = "WORKER"
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+
+   worker.vm.provision "shell",
+     env: {
+      "WORKER" => WORKER
+     },
+     path: "scripts/provision-worker.sh"
+   end
+   
+end
