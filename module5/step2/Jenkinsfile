@@ -1,0 +1,60 @@
+pipeline {
+    agent any // Визначає, що pipeline може виконуватися на будь-якому доступному Jenkins worker
+
+    options {
+        timeout(time: 1, unit: 'HOURS') // Захист від зависання
+    }
+
+    stages {
+        stage('Pull Code') {
+            steps {
+                echo '--- Крок 1: Отримання коду з репозиторію ---'
+                // Замініть url та branch на ваші актуальні дані
+                checkout scmGit(
+                    branches: [[name: '*/main']], 
+                    userRemoteConfigs: [[url: "https://github.com/cadavezne-creator/testov.git"]]
+                )
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo '--- Крок 2: Збірка Docker-образу ---'
+                script {
+                    // Збираємо образ за допомогою Dockerfile, який лежить у коліні проекту
+                    // Встановлюємо унікальний тег за допомогою номера збірки Jenkins ($BUILD_NUMBER)
+                    sh 'docker build -t my-test-app:${BUILD_NUMBER} .'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo '--- Крок 3: Запуск тестів у Docker-контейнері ---'
+                script {
+                    try {
+                        
+                        sh 'docker run --rm my-test-app:${BUILD_NUMBER} test'
+                    } finally {
+                        echo '--- Очищення: Видалення локального Docker-образу ---'
+                        // Видаляємо образ, щоб не засмічувати дисковий простір Jenkins worker
+                        sh 'docker rmi my-test-app:${BUILD_NUMBER}'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline завершив роботу.'
+        }
+        success {
+            echo 'Тести пройшли успішно! 🎉'
+        }
+        failure {
+            echo 'Сталася помилка під час виконання Pipeline або тести завалилися. ❌'
+        }
+    }
+}
+
