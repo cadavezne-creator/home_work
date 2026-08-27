@@ -62,26 +62,3 @@ pipeline {
         }
     }
 }
-
-        stage('Push to Docker Hub') {
-            steps {
-                script {
-            withCredentials([usernamePassword(credentialsId: 'PiDHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                
-                // 1. Авторизація в Docker Hub
-                sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
-                
-                // 2. Тегування локального образу my-test-app для репозиторію cadavvez/forstep2
-                sh "docker tag my-test-app:latest cadavvez/forstep2:${env.BUILD_NUMBER}"
-                sh "docker tag my-test-app:latest cadavvez/forstep2:latest"
-                
-                // 3. Відправка тегів у Docker Hub
-                sh "docker push cadavvez/forstep2:${env.BUILD_NUMBER}"
-                sh "docker push cadavvez/forstep2:latest"
-                
-                // 4. Вихід з Docker Hub задля безпеки
-                sh "docker logout"
-            }
-        }
-    }
-}
