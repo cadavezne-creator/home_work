@@ -631,22 +631,17 @@ cloud-init[949]: +----[SHA256]-----+
          Starting Dispatcher daemon for systemd-networkd...
 [[0;32m  OK  [0m] Started [ 1029.299433] watchdog: BUG: soft lockup - CPU#0 stuck for 42s! [jenkins.util.Ti:3579]
 [ 1029.299459] watchdog: BUG: soft lockup - CPU#1 stuck for 42s! [containerd-shim:3474]
-K  [0m] Started Permit User Sessions.
-[[0;32m  OK  [0m] Started LXD - container startup/shutdown.
-cloud-init[949]: |  . = .. +       |
-[[0;32m  OK  [0m] Started Login Service.
-[[0;32m  OK  [0m] Started Unattended Upgrades Shutdown.
-         Starting Terminate Plymouth Boot Screen...
-         Starting Hold until boot process finishes up...
-[[0;32m  OK  [0m] Started Hold until boot process finishes up.
-         Starting Set console scheme...
-[[0;32m  OK  [0m] Started Serial Getty on ttyS0.
-[   18.098195] cloud-init[949]: |   ..=E   .      |
-[   18.103109] cloud-init[949]: [[0;32m  OK  [0m] Started Terminate Plymouth Boot Screen.
-+----[SHA256]-----+
-[[0;32m  OK  [0m] Started Set console scheme.
-[[0;32m  OK  [0m] Created slice system-getty.slice.
-[[0;32m  OK  [0m] Started Getty on tty1.
+[ 4713.127828] INFO: rcu_sched self-detected stall on CPU
+[ 4713.128854] INFO: rcu_sched self-detected stall on CPU
+[ 4713.133574] 	1-...!: (1 ticks this GP) idle=426/140000000000001/0 softirq=23714/23714 fqs=0 
+[ 4713.148382] 	 (t=23396 jiffies g=7894 c=7893 q=217)
+[ 4713.148432] 	0-...!: (1 GPs behind) idle=e72/1/0 softirq=35770/35777 fqs=0 
+[ 4713.152315] rcu_sched kthread starved for 23396 jiffies! g7894 c7893 f0x0 RCU_GP_WAIT_FQS(3) ->state=0x402 ->cpu=1
+[ 4713.157767] 	 (t=23396 jiffies g=7894 c=7893 q=217)
+[ 4713.171045] rcu_sched kthread starved for 23396 jiffies! g7894 c7893 f0x0 RCU_GP_WAIT_FQS(3) ->state=0x402 ->cpu=1
+[ 8161.463196] watchdog: BUG: soft lockup - CPU#0 stuck for 253s! [containerd-shim:4951]
+[ 8161.463262] watchdog: BUG: soft lockup - CPU#1 stuck for 253s! [containerd-shim:3474]
+1.
 [[0;32m  OK  [0m] Reached target Login Prompts.
 [[0;32m  OK  [0m] Started LSB: automatic crash report generation.
 [[0;32m  OK  [0m] Started LSB: Record successful boot for GRUB.
