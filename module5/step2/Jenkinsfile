@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'work'
+    any
     } // Визначає, що pipeline може виконуватися на будь-якому доступному Jenkins worker
 
     options {
