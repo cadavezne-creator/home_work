@@ -37,7 +37,7 @@ echo "#################################################"
 # start jenkins container
 sudo docker volume create jenkins_home
 
-sudo docker run -d --restart=always --name jenkins -p 8080:50000 -p 8080:8080 -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk17
+sudo docker run -d --restart=always --name jenkins -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk17
 
 #  test
 
