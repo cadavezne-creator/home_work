@@ -11,7 +11,6 @@ pipeline {
         stage('Pull Code') {
             steps {
                 echo '--- Крок 1: Отримання коду з репозиторію ---'
-                // Замініть url та branch на ваші актуальні дані
                 checkout scmGit(
                     branches: [[name: '*/main']], 
                     userRemoteConfigs: [[url: "https://github.com/cadavezne-creator/testov.git"]]
@@ -55,21 +54,21 @@ pipeline {
             echo 'Тести пройшли успішно! '
             script {
                  withCredentials([usernamePassword(credentialsId: 'PiDHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) 
-                 {
+                     {
                 
-                // 1. Авторизація в Docker Hub
-                sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
+                      // 1. Авторизація в Docker Hub
+                    sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
                 
                 // 2. Тегування локального образу my-test-app для репозиторію cadavvez/forstep2
-                sh "docker tag my-test-app:latest cadavvez/forstep2:${env.BUILD_NUMBER}"
-                sh "docker tag my-test-app:latest cadavvez/forstep2:latest"
+                     sh "docker tag my-test-app:latest cadavvez/forstep2:${env.BUILD_NUMBER}"
+                     sh "docker tag my-test-app:latest cadavvez/forstep2:latest"
                 
                 // 3. Відправка тегів у Docker Hub
-                sh "docker push cadavvez/forstep2:${env.BUILD_NUMBER}"
-                sh "docker push cadavvez/forstep2:latest"
+                     sh "docker push cadavvez/forstep2:${env.BUILD_NUMBER}"
+                     sh "docker push cadavvez/forstep2:latest"
                 
                 // 4. Вихід з Docker Hub задля безпеки
-                sh "docker logout"
+                      sh "docker logout"
               }
         }
     }
