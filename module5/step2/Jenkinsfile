@@ -1,6 +1,5 @@
 pipeline {
-    agent { any
-    } // Визначає, що pipeline може виконуватися на будь-якому доступному Jenkins worker
+    agent any // Визначає, що pipeline може виконуватися на будь-якому доступному Jenkins worker
 
     options {
         timeout(time: 1, unit: 'HOURS') // Захист від зависання
