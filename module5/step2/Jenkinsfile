@@ -11,7 +11,7 @@ pipeline {
                 echo '--- Крок 1: Отримання коду з репозиторію ---'
                 checkout scmGit(
                     branches: [[name: '*/main']], 
-                    userRemoteConfigs: [[url: "https://github.com/cadavezne-creator/testov.git"]]
+                    userRemoteConfigs: [[url: "https://github.com/cadavezne-creator/testov.git"]],
                     extensions: scm.extensions + [[$class: 'CleanCheckout']]
                 )
             }
