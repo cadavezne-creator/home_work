@@ -65,8 +65,7 @@ pipeline {
                         }
                         sh 'docker run --rm ${DOCKER_IMAGE}:${BUILD_NUMBER} test'
                     } finally {
-                        echo '--- Очищення: Видалення локального Docker-образу ---'
-                        sh 'docker rmi ${DOCKER_IMAGE}:${BUILD_NUMBER}'                      
+                        echo '--- Очищення: Видалення локального Docker-образу ---'                      
                     }
                 }
             }
