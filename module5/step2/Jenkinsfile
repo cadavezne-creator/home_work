@@ -12,6 +12,7 @@ pipeline {
                 checkout scmGit(
                     branches: [[name: '*/main']], 
                     userRemoteConfigs: [[url: "https://github.com/cadavezne-creator/testov.git"]]
+                    extensions: scm.extensions + [[$class: 'CleanCheckout']]
                 )
             }
         }
