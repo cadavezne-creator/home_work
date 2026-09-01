@@ -43,6 +43,31 @@ pipeline {
                 }
             }
         }
+
+        stage('Build & Push Docker Image') {
+            steps {
+                script {
+                    // Збирання
+                    sh "docker build -t my-test-app:latest ."
+                    
+                    // Авторизація та відправка
+                    withCredentials([usernamePassword(credentialsId: 'PiDHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
+                        
+                        sh "docker tag my-test-app:latest cadavvez/forstep2:${env.BUILD_NUMBER}"
+                        sh "docker tag my-test-app:latest cadavvez/forstep2:latest"
+                        
+                        sh "docker push cadavvez/forstep2:${env.BUILD_NUMBER}"
+                        sh "docker push cadavvez/forstep2:latest"
+                        
+                        sh "docker logout"
+                    }
+                }
+            }
+        }
+    }
+
+        }
     }
 
     post {
