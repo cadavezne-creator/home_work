@@ -1,0 +1,21 @@
+--- Крок 1: Отримання коду з репозиторію ---
+The recommended git tool is: NONE
+No credentials specified
+Fetching changes from the remote Git repository
+ > git rev-parse --resolve-git-dir /home/jenkins/agent/workspace/forStep2/.git # timeout=10
+ > git config remote.origin.url https://github.com/cadavezne-creator/testov.git # timeout=10
+Fetching upstream changes from https://github.com/cadavezne-creator/testov.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/cadavezne-creator/testov.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision 83e65b8384ce11a309485477637e6ff7608a8055 (refs/remotes/origin/main)
+Commit message: "clone app"
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 83e65b8384ce11a309485477637e6ff7608a8055 # timeout=10
+ > git rev-list --no-walk 83e65b8384ce11a309485477637e6ff7608a8055 # timeout=10
+Cleaning workspace
+ > git rev-parse --verify HEAD # timeout=10
+Resetting working tree
+ > git reset --hard # timeout=10
+ > git clean -fdx # timeout=10

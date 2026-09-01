@@ -1,0 +1,35 @@
+--- Крок 3: Запуск тестів у Docker-контейнері ---
++ echo ****
++ docker login -u cadavvez --password-stdin
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
++ docker pull cadavvez/my-test-app:49
+49: Pulling from cadavvez/my-test-app
+Digest: sha256:e27af5b2cbd5542e52a0dd5bd1635e91d2b49315288206507455f01cf35ce78a
+Status: Downloaded newer image for cadavvez/my-test-app:49
+docker.io/cadavvez/my-test-app:49
++ docker run --rm cadavvez/my-test-app:49 test
+
+> app@1.0.0 test /app
+> jest
+
+  console.log
+    App listening
+
+      at Server.log (index.js:11:11)
+
+PASS tests/app.test.js
+  GET /
+    ✓ responds to / (388 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        1.453 s
+Ran all test suites.
+--- Очищення: Видалення локального Docker-образу ---
++ docker rmi cadavvez/my-test-app:49
+Untagged: cadavvez/my-test-app:49

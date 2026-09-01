@@ -1,0 +1,280 @@
+Started by user qwerty123
+Obtained module5/step2/Jenkinsfile from git https://github.com/cadavezne-creator/home_work
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on test in /home/jenkins/agent/workspace/forStep2
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git
+No credentials specified
+Fetching changes from the remote Git repository
+ > git rev-parse --resolve-git-dir /home/jenkins/agent/workspace/forStep2/.git # timeout=10
+ > git config remote.origin.url https://github.com/cadavezne-creator/home_work # timeout=10
+Fetching upstream changes from https://github.com/cadavezne-creator/home_work
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+Checking out Revision 39087b1419cb906fcab146d8f4293d10f891ff45 (refs/remotes/origin/home_work)
+Commit message: "eweagG"
+ > git fetch --tags --progress -- https://github.com/cadavezne-creator/home_work +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/home_work^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 39087b1419cb906fcab146d8f4293d10f891ff45 # timeout=10
+ > git rev-list --no-walk 39087b1419cb906fcab146d8f4293d10f891ff45 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 0 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Pull Code)
+[Pipeline] echo
+--- Крок 1: Отримання коду з репозиторію ---
+[Pipeline] checkout
+The recommended git tool is: NONE
+No credentials specified
+Fetching changes from the remote Git repository
+ > git rev-parse --resolve-git-dir /home/jenkins/agent/workspace/forStep2/.git # timeout=10
+ > git config remote.origin.url https://github.com/cadavezne-creator/testov.git # timeout=10
+Fetching upstream changes from https://github.com/cadavezne-creator/testov.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/cadavezne-creator/testov.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision 83e65b8384ce11a309485477637e6ff7608a8055 (refs/remotes/origin/main)
+Commit message: "clone app"
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 83e65b8384ce11a309485477637e6ff7608a8055 # timeout=10
+ > git rev-list --no-walk 83e65b8384ce11a309485477637e6ff7608a8055 # timeout=10
+Cleaning workspace
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+[Pipeline] echo
+--- Крок 2: Збірка Docker-образу ---
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker build -t cadavvez/my-test-app:49 .
+ > git rev-parse --verify HEAD # timeout=10
+Resetting working tree
+ > git reset --hard # timeout=10
+ > git clean -fdx # timeout=10
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 233B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:14
+#4 DONE 1.5s
+
+#5 [1/5] FROM docker.io/library/node:14@sha256:a158d3b9b4e3fa813fa6c8c590b8f0a860e015ad4e59bbce5744d2f6fd8461aa
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 19.00kB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/5] WORKDIR /app
+#7 CACHED
+
+#8 [3/5] COPY package*.json ./
+#8 CACHED
+
+#9 [4/5] RUN npm install
+#9 CACHED
+
+#10 [5/5] COPY . .
+#10 DONE 0.3s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 0.2s done
+#11 writing image sha256:2474bade05d7166b25dc66fd43f500eca7ec6e686279d00f0fee4ae013025d57 done
+#11 naming to docker.io/cadavvez/my-test-app:49 done
+#11 DONE 0.2s
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_PASS
+[Pipeline] {
+[Pipeline] sh
++ docker login -u cadavvez --password-stdin
++ echo ****
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] sh
++ docker tag cadavvez/my-test-app:49 cadavvez/my-test-app:latest
+[Pipeline] sh
++ docker push cadavvez/my-test-app:49
+The push refers to repository [docker.io/cadavvez/my-test-app]
+a66bfaa7bf82: Preparing
+47a01d4eaaf6: Preparing
+155d6f15d3d7: Preparing
+4529a0c80936: Preparing
+0d5f5a015e5d: Preparing
+3c777d951de2: Preparing
+f8a91dd5fc84: Preparing
+cb81227abde5: Preparing
+e01a454893a9: Preparing
+c45660adde37: Preparing
+fe0fb3ab4a0f: Preparing
+f1186e5061f2: Preparing
+b2dba7477754: Preparing
+3c777d951de2: Waiting
+f8a91dd5fc84: Waiting
+cb81227abde5: Waiting
+e01a454893a9: Waiting
+c45660adde37: Waiting
+fe0fb3ab4a0f: Waiting
+f1186e5061f2: Waiting
+b2dba7477754: Waiting
+47a01d4eaaf6: Layer already exists
+4529a0c80936: Layer already exists
+155d6f15d3d7: Layer already exists
+0d5f5a015e5d: Layer already exists
+3c777d951de2: Layer already exists
+cb81227abde5: Layer already exists
+f8a91dd5fc84: Layer already exists
+e01a454893a9: Layer already exists
+f1186e5061f2: Layer already exists
+b2dba7477754: Layer already exists
+fe0fb3ab4a0f: Layer already exists
+c45660adde37: Layer already exists
+a66bfaa7bf82: Pushed
+49: digest: sha256:e27af5b2cbd5542e52a0dd5bd1635e91d2b49315288206507455f01cf35ce78a size: 3052
+[Pipeline] sh
++ docker push cadavvez/my-test-app:latest
+The push refers to repository [docker.io/cadavvez/my-test-app]
+a66bfaa7bf82: Preparing
+47a01d4eaaf6: Preparing
+155d6f15d3d7: Preparing
+4529a0c80936: Preparing
+0d5f5a015e5d: Preparing
+3c777d951de2: Preparing
+f8a91dd5fc84: Preparing
+cb81227abde5: Preparing
+e01a454893a9: Preparing
+c45660adde37: Preparing
+fe0fb3ab4a0f: Preparing
+f1186e5061f2: Preparing
+b2dba7477754: Preparing
+3c777d951de2: Waiting
+f8a91dd5fc84: Waiting
+cb81227abde5: Waiting
+e01a454893a9: Waiting
+c45660adde37: Waiting
+fe0fb3ab4a0f: Waiting
+f1186e5061f2: Waiting
+b2dba7477754: Waiting
+a66bfaa7bf82: Layer already exists
+155d6f15d3d7: Layer already exists
+0d5f5a015e5d: Layer already exists
+4529a0c80936: Layer already exists
+47a01d4eaaf6: Layer already exists
+3c777d951de2: Layer already exists
+c45660adde37: Layer already exists
+cb81227abde5: Layer already exists
+f8a91dd5fc84: Layer already exists
+e01a454893a9: Layer already exists
+fe0fb3ab4a0f: Layer already exists
+f1186e5061f2: Layer already exists
+b2dba7477754: Layer already exists
+latest: digest: sha256:e27af5b2cbd5542e52a0dd5bd1635e91d2b49315288206507455f01cf35ce78a size: 3052
+[Pipeline] sh
++ docker logout
+Removing login credentials for https://index.docker.io/v1/
+[Pipeline] sh
++ docker rmi cadavvez/my-test-app:49
+Untagged: cadavvez/my-test-app:49
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Tests)
+[Pipeline] echo
+--- Крок 3: Запуск тестів у Docker-контейнері ---
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_PASS
+[Pipeline] {
+[Pipeline] sh
++ echo ****
++ docker login -u cadavvez --password-stdin
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] sh
++ docker pull cadavvez/my-test-app:49
+49: Pulling from cadavvez/my-test-app
+Digest: sha256:e27af5b2cbd5542e52a0dd5bd1635e91d2b49315288206507455f01cf35ce78a
+Status: Downloaded newer image for cadavvez/my-test-app:49
+docker.io/cadavvez/my-test-app:49
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] sh
++ docker run --rm cadavvez/my-test-app:49 test
+
+> app@1.0.0 test /app
+> jest
+
+  console.log
+    App listening
+
+      at Server.log (index.js:11:11)
+
+PASS tests/app.test.js
+  GET /
+    ✓ responds to / (388 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        1.453 s
+Ran all test suites.
+[Pipeline] echo
+--- Очищення: Видалення локального Docker-образу ---
+[Pipeline] sh
++ docker rmi cadavvez/my-test-app:49
+Untagged: cadavvez/my-test-app:49
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline завершив роботу.
+[Pipeline] echo
+Тести пройшли успішно! 🎉
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

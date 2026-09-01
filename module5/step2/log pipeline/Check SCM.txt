@@ -1,0 +1,15 @@
+The recommended git tool is: git
+No credentials specified
+Fetching changes from the remote Git repository
+ > git rev-parse --resolve-git-dir /home/jenkins/agent/workspace/forStep2/.git # timeout=10
+ > git config remote.origin.url https://github.com/cadavezne-creator/home_work # timeout=10
+Fetching upstream changes from https://github.com/cadavezne-creator/home_work
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+Checking out Revision 39087b1419cb906fcab146d8f4293d10f891ff45 (refs/remotes/origin/home_work)
+Commit message: "eweagG"
+ > git fetch --tags --progress -- https://github.com/cadavezne-creator/home_work +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/home_work^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 39087b1419cb906fcab146d8f4293d10f891ff45 # timeout=10
+ > git rev-list --no-walk 39087b1419cb906fcab146d8f4293d10f891ff45 # timeout=10
