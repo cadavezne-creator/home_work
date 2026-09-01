@@ -70,10 +70,7 @@ pipeline {
                 }
             }
         }
-
-                    
-
-
+    }   
     post {
         always {
             echo 'Pipeline завершив роботу.'
