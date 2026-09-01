@@ -1,6 +1,8 @@
 pipeline {
     agent any // Визначає, що pipeline може виконуватися на будь-якому доступному Jenkins worker
-
+    environment {
+        DOCKER_IMAGE = "cadavvez/my-test-app" // Змінна для зберігання імені Docker-образу
+    }
     options {
         timeout(time: 1, unit: 'HOURS') // Захист від зависання
     }
@@ -23,7 +25,7 @@ pipeline {
                 script {
                     // собираем образ
                     // тегируем номером сборки
-                    sh 'docker build -t cadavvez/my-test-app:${BUILD_NUMBER} .'
+                    sh 'docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .'
                     // Авторизация
                     withCredentials([
                         usernamePassword(
@@ -34,13 +36,13 @@ pipeline {
                     ]) {
                         sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
                         
-                        sh "docker tag cadavvez/my-test-app:${env.BUILD_NUMBER} cadavvez/my-test-app:latest"
+                        sh "docker tag ${DOCKER_IMAGE}:${env.BUILD_NUMBER} ${DOCKER_IMAGE}:latest"
                                                 
-                        sh "docker push cadavvez/my-test-app:${env.BUILD_NUMBER}"
-                        sh "docker push cadavvez/my-test-app:latest"
+                        sh "docker push ${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+                        sh "docker push ${DOCKER_IMAGE}:latest"
                         sh "docker logout"
 
-                        sh 'docker rmi cadavvez/my-test-app:${BUILD_NUMBER}'
+                        sh 'docker rmi ${DOCKER_IMAGE}:${BUILD_NUMBER}'
                     }
                 }
             }
@@ -59,13 +61,12 @@ pipeline {
                             )
                         ]) {
                             sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
-                            sh "docker pull cadavvez/my-test-app:${env.BUILD_NUMBER}"
+                            sh "docker pull ${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
                         }
-                        sh 'docker run --rm cadavvez/my-test-app:${BUILD_NUMBER} test'
+                        sh 'docker run --rm ${DOCKER_IMAGE}:${BUILD_NUMBER} test'
                     } finally {
                         echo '--- Очищення: Видалення локального Docker-образу ---'
-                
-                        
+                        sh 'docker rmi ${DOCKER_IMAGE}:${BUILD_NUMBER}'                      
                     }
                 }
             }
