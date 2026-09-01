@@ -24,6 +24,24 @@ pipeline {
                     // Збираємо образ за допомогою Dockerfile, який лежить у коліні проекту
                     // Встановлюємо унікальний тег за допомогою номера збірки Jenkins ($BUILD_NUMBER)
                     sh 'docker build -t my-test-app:${BUILD_NUMBER} .'
+                    // Авторизація та відправка
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'PiDHub', 
+                            usernameVariable: 'DOCKER_USER', 
+                            passwordVariable: 'DOCKER_PASS'
+                        )
+                    ]) {
+                        sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
+                        
+                        sh "docker tag my-test-app:latest cadavvez/forstep2:${env.BUILD_NUMBER}"
+                        sh "docker tag my-test-app:latest cadavvez/forstep2:latest"
+                        
+                        sh "docker push my-test-app:${env.BUILD_NUMBER}"
+                        sh "docker push my-test-app:latest"
+                        sh "docker logout"
+                        sh 'docker rmi my-test-app:${BUILD_NUMBER}'
+                    }
                 }
             }
         }
@@ -33,39 +51,27 @@ pipeline {
                 echo '--- Крок 3: Запуск тестів у Docker-контейнері ---'
                 script {
                     try {
-                        
+                        withCredentials([
+                            usernamePassword(
+                                credentialsId: 'PiDHub', 
+                                usernameVariable: 'DOCKER_USER', 
+                                passwordVariable: 'DOCKER_PASS'
+                            )
+                        ]) {
+                            sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
+                            sh "docker pull my-test-app:${env.BUILD_NUMBER}"
+                        }
                         sh 'docker run --rm my-test-app:${BUILD_NUMBER} test'
                     } finally {
                         echo '--- Очищення: Видалення локального Docker-образу ---'
                 
-                        sh 'docker rmi my-test-app:${BUILD_NUMBER}'
+                        
                     }
                 }
             }
         }
 
-        stage('Build & Push Docker Image') {
-            steps {
-                script {
-                    // Збирання
-                    sh "docker build -t my-test-app:latest ."
                     
-                    // Авторизація та відправка
-                    withCredentials([usernamePassword(credentialsId: 'PiDHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
-                        
-                        sh "docker tag my-test-app:latest cadavvez/forstep2:${env.BUILD_NUMBER}"
-                        sh "docker tag my-test-app:latest cadavvez/forstep2:latest"
-                        
-                        sh "docker push cadavvez/forstep2:${env.BUILD_NUMBER}"
-                        sh "docker push cadavvez/forstep2:latest"
-                        
-                        sh "docker logout"
-                    }
-                }
-            }
-        }
-    }
 
 
     post {
