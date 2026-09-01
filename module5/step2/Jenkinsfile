@@ -34,7 +34,9 @@ pipeline {
                     ]) {
                         sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
                         
-                        sh "docker tag my-test-app:${env.BUILD_NUMBER} my-test-app:latest"
+                        sh "docker tag my-test-app:${env.BUILD_NUMBER} cadavvez/my-test-app:${env.BUILD_NUMBER}"
+                        sh "docker tag my-test-app:${env.BUILD_NUMBER} cadavvez/my-test-app:latest"
+                        
                         
                         sh "docker push cadavvez/my-test-app:${env.BUILD_NUMBER}"
                         sh "docker push cadavvez/my-test-app:latest"
