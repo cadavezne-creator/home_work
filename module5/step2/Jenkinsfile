@@ -21,10 +21,10 @@ pipeline {
             steps {
                 echo '--- Крок 2: Збірка Docker-образу ---'
                 script {
-                    // Збираємо образ за допомогою Dockerfile, який лежить у коліні проекту
-                    // Встановлюємо унікальний тег за допомогою номера збірки Jenkins ($BUILD_NUMBER)
-                    sh 'docker build -t my-test-app:${BUILD_NUMBER} .'
-                    // Авторизація та відправка
+                    // собираем образ
+                    // тегируем номером сборки
+                    sh 'docker build -t cadavvez/my-test-app:${BUILD_NUMBER} .'
+                    // Авторизация
                     withCredentials([
                         usernamePassword(
                             credentialsId: 'PiDHub', 
@@ -34,14 +34,13 @@ pipeline {
                     ]) {
                         sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
                         
-                        sh "docker tag my-test-app:${env.BUILD_NUMBER} cadavvez/my-test-app:${env.BUILD_NUMBER}"
-                        sh "docker tag my-test-app:${env.BUILD_NUMBER} cadavvez/my-test-app:latest"
-                        
-                        
+                        sh "docker tag cadavvez/my-test-app:${env.BUILD_NUMBER} cadavvez/my-test-app:latest"
+                                                
                         sh "docker push cadavvez/my-test-app:${env.BUILD_NUMBER}"
                         sh "docker push cadavvez/my-test-app:latest"
                         sh "docker logout"
-                        sh 'docker rmi my-test-app:${BUILD_NUMBER}'
+
+                        sh 'docker rmi cadavvez/my-test-app:${BUILD_NUMBER}'
                     }
                 }
             }
