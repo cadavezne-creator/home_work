@@ -36,8 +36,8 @@ pipeline {
                         
                         sh "docker tag my-test-app:${env.BUILD_NUMBER} my-test-app:latest"
                         
-                        sh "docker push my-test-app:${env.BUILD_NUMBER}"
-                        sh "docker push my-test-app:latest"
+                        sh "docker push cadavvez/my-test-app:${env.BUILD_NUMBER}"
+                        sh "docker push cadavvez/my-test-app:latest"
                         sh "docker logout"
                         sh 'docker rmi my-test-app:${BUILD_NUMBER}'
                     }
