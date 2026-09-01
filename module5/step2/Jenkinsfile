@@ -59,9 +59,9 @@ pipeline {
                             )
                         ]) {
                             sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
-                            sh "docker pull my-test-app:${env.BUILD_NUMBER}"
+                            sh "docker pull cadavvez/my-test-app:${env.BUILD_NUMBER}"
                         }
-                        sh 'docker run --rm my-test-app:${BUILD_NUMBER} test'
+                        sh 'docker run --rm cadavvez/my-test-app:${BUILD_NUMBER} test'
                     } finally {
                         echo '--- Очищення: Видалення локального Docker-образу ---'
                 
